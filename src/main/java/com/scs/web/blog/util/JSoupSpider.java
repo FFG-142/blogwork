@@ -64,6 +64,7 @@ public class JSoupSpider {
                     user.setBanner(imgUrl);
                     user.setHomepage("https://www.jianshu.com" + linkHref);
                     user.setBirthday(DataUtil.getBirthday());
+                    user.setAddress(DataUtil.getAddress());
                     user.setCreateTime(DataUtil.getCreateTime());
                     user.setStatus((short) 1);
                     userList.add(user);

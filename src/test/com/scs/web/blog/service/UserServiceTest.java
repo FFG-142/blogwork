@@ -11,7 +11,7 @@ public class UserServiceTest {
     @Test
     public void signIn() {
         UserDto userDao = new UserDto();
-        userDao.setMobile("13951905171");
+        userDao.setMobile("13917310803");
         userDao.setPassword("111");
         Result result = userService.signIn(userDao);
         System.out.println("code:" + result.getCode() + "," + "msg:" + result.getMsg());

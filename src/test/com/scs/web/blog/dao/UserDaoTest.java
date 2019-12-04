@@ -18,7 +18,7 @@ public class UserDaoTest {
 
     @Test
     public void findUserByMobile() throws SQLException {
-        User user = userDao.findUserByMobile("13951905171");
+        User user = userDao.findUserByMobile("13955615747");
         System.out.println(user);
     }
 
@@ -36,20 +36,13 @@ public class UserDaoTest {
 
     @Test
     public void update() throws SQLException {
-        int n = userDao.update(3, 0);
+        int n = userDao.update(19, 0);
         System.out.println(n);
     }
 
     @Test
     public void singUp() throws SQLException {
-     /*   User user = new User();
-        user.setMobile("12321");
-        user.setPassword("123123");
-        user.setNickname("哈哈");
-        user.setBirthday(LocalDate.now());
-        user.setCreateTime(LocalDateTime.now());
-        user.setGender("nan");
-       int n = userDao.singUp(user);*/
+
 
     }
 }

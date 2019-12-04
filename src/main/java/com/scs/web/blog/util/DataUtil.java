@@ -1,11 +1,15 @@
 package com.scs.web.blog.util;
 
+import com.scs.web.blog.entity.Region;
+import com.scs.web.blog.factory.DaoFactory;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -72,6 +76,23 @@ public class DataUtil {
         return now.minusDays(bound);
     }
 
+    /**
+     * 随机生成地址
+     *
+     * @return
+     */
+    public static String getAddress() {
+        Random random = new Random();
+        String address = null;
+        try {
+            List<Region> regionList = DaoFactory.getRegionDaoInstance().selectAll();
+            Region region = regionList.get(random.nextInt(regionList.size()));
+            address = region.getMergeName();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return address;
+    }
 
     /**
      * 生成时间

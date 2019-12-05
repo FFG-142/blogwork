@@ -1,6 +1,7 @@
 package com.scs.web.blog.dao.impl;
 
 import com.scs.web.blog.dao.UserDao;
+import com.scs.web.blog.domain.dto.UserDto;
 import com.scs.web.blog.domain.vo.UserVo;
 import com.scs.web.blog.entity.User;
 import com.scs.web.blog.util.BeanHandler;
@@ -25,34 +26,30 @@ public class UserDaoImpl implements UserDao {
     private static Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
 
     @Override
-    public int insert(User user) throws SQLException{
+    public void insert(UserDto userDto) throws SQLException {
         Connection connection = DbUtil.getConnection();
-        String sql = "INSERT INTO t_user (mobile,password,nickname,gender) VALUES (?,?,?,?) ";
+        String sql = "INSERT INTO t_user (mobile,password,nickname,avatar,birthday,create_time) VALUES (?,?,?,?,?,?) ";
         PreparedStatement pst = connection.prepareStatement(sql);
-        System.out.println(user);
-        pst.setString(1, user.getMobile());
-        pst.setString(2, user.getPassword());
-        pst.setString(3, user.getNickname());
-        pst.setString(4, user.getGender());
-        int n = pst.executeUpdate();
+        pst.setString(1, userDto.getMobile());
+        pst.setString(2, userDto.getPassword());
+        pst.setString(3, userDto.getNickname());
+        pst.setString(4, userDto.getAvatar());
+        pst.setObject(5,userDto.getBirthday());
+        pst.setObject(6, userDto.getCreateTime());
+        pst.executeUpdate();
         DbUtil.close(connection, pst);
-        return n;
     }
 
     @Override
-    public int update(long id, int iscare) throws SQLException {
+    public void update(User user) throws SQLException {
         Connection connection = DbUtil.getConnection();
-        String sql = "UPDATE t_user SET iscare = ? WHERE id = ?";
+        String sql = "UPDATE t_user SET nickname = ?,password=?,address = ?  WHERE id = ?";
         PreparedStatement pst = connection.prepareStatement(sql);
-        if(iscare == 0) {
-            pst.setInt(1, 1);
-        }else{
-            pst.setInt(1, 0);
-        }
-        pst.setLong(2, id);
-       /* int n = pst.executeUpdate();
-        return n;*/
-        return pst.executeUpdate();
+        pst.setString(1, user.getNickname());
+        pst.setString(2, user.getPassword());
+        pst.setString(3, user.getAddress());
+        pst.setLong(4, user.getId());
+        pst.executeUpdate();
     }
 
     @Override
@@ -95,7 +92,11 @@ public class UserDaoImpl implements UserDao {
         PreparedStatement pst = connection.prepareStatement(sql);
         pst.setString(1, mobile);
         ResultSet rs = pst.executeQuery();
-        User user = BeanHandler.convertUser(rs).get(0);
+        List<User> users = BeanHandler.convertUser(rs);
+        User user = null;
+        if (users.size() != 0) {
+            user = users.get(0);
+        }
         DbUtil.close(connection, pst, rs);
         return user;
     }
@@ -151,8 +152,6 @@ public class UserDaoImpl implements UserDao {
         DbUtil.close(connection, pst, rs);
         return userList;
     }
-
-
 
 
 }

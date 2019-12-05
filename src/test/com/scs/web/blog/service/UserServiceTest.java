@@ -9,11 +9,11 @@ public class UserServiceTest {
     private UserService userService = ServiceFactory.getUserServiceInstance();
 
     @Test
-    public void signIn() {
+    public void signUp() {
         UserDto userDao = new UserDto();
-        userDao.setMobile("13917310803");
-        userDao.setPassword("111");
-        Result result = userService.signIn(userDao);
+        userDao.setMobile("13166667777");
+        userDao.setPassword("222");
+        Result result = userService.signUp(userDao);
         System.out.println("code:" + result.getCode() + "," + "msg:" + result.getMsg());
     }
 
@@ -22,4 +22,5 @@ public class UserServiceTest {
         Result result = userService.getHotUsers();
         System.out.println(result);
     }
+
 }

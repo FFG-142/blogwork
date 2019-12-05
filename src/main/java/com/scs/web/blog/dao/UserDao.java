@@ -1,5 +1,6 @@
 package com.scs.web.blog.dao;
 
+import com.scs.web.blog.domain.dto.UserDto;
 import com.scs.web.blog.domain.vo.UserVo;
 import com.scs.web.blog.entity.User;
 
@@ -20,11 +21,11 @@ public interface UserDao {
      * @param user
      * @throws SQLException
      */
-    int insert(User user) throws SQLException;
+    void insert(UserDto userDto) throws SQLException;
 
 
 
-    int update(long id, int iscare) throws SQLException;
+    void update(User user) throws SQLException;
 
     /**
      * 批量新增用户

@@ -3,8 +3,6 @@ package com.scs.web.blog.controller;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.scs.web.blog.domain.dto.UserDto;
-import com.scs.web.blog.entity.User;
-import com.scs.web.blog.factory.DaoFactory;
 import com.scs.web.blog.factory.ServiceFactory;
 import com.scs.web.blog.listener.MySessionContext;
 import com.scs.web.blog.service.UserService;
@@ -23,15 +21,8 @@ import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
+import java.util.Map;
 
-/**
- * @author yzh
- * @ClassName UserController
- * @Description 用户控制器
- * @Date 2019/11/9
- * @Version 1.0
- **/
 @WebServlet(urlPatterns = {"/api/user", "/api/user/*"})
 public class UserController extends HttpServlet {
     private static Logger logger = LoggerFactory.getLogger(UserController.class);
@@ -148,7 +139,7 @@ public class UserController extends HttpServlet {
     }
 
     private void signUp(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
-        //请求字符集设置
+       /* //请求字符集设置
         req.setCharacterEncoding("UTF-8");
         //接送客户端船体的Json数据，通过缓冲字符流按行读取，存入可变长字符串中
         BufferedReader reader = req.getReader();
@@ -164,32 +155,65 @@ public class UserController extends HttpServlet {
 
 
         //插入数据库，并返回该行主键
-        int id=0;
-        try {
-            id = DaoFactory.getUserDaoInstance().insert(user);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        //补全user的id字段信息
-        user.setId((long) id);
+//        int id=0;
+//        try {
+//            id = DaoFactory.getUserDaoInstance().insert(user);
+//
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        //补全user的id字段信息
+//        user.setId((long) id);
         //通过response对象返回Json信息
+        Result result = userService.signUp(userDao);
         resp.setContentType("application/json;charset=utf-8");
         int code = resp.getStatus();
         String msg = code == 200 ? "成功":"失败";
         ResponseObject ro = ResponseObject.success(code,msg,user);
         PrintWriter out = resp.getWriter();
         out.print(gson.toJson(ro));
+        out.close();*/
+        BufferedReader reader = req.getReader();
+        StringBuilder stringBuilder = new StringBuilder();
+        String line = null;
+        while ((line = reader.readLine()) != null) {
+            stringBuilder.append(line);
+        }
+        System.out.println(stringBuilder.toString());
+        Gson gson = new GsonBuilder().create();
+        Map<String, Object> map = null;
+        // 获取请求路径
+        UserDto userDto = gson.fromJson(stringBuilder.toString(), UserDto.class);
+        String requestPath = req.getRequestURI().trim();
+        PrintWriter out = resp.getWriter();
+        Result result = userService.signUp(userDto);
+        resp.setContentType("application/json;charset=utf-8");
+        int code = resp.getStatus();
+        String msg = code == 200 ? "成功":"失败";
+        ResponseObject ro = ResponseObject.success(code,msg,userDto);
+        PrintWriter out1 = resp.getWriter();
+        out.print(gson.toJson(ro));
+       /* String msg=result;
+        ResponseObject ro;
+        switch (result) {
+            case ResultCode.SUCCESS:
+                ro = ResponseObject.success(200, "成功", map.get("data"));
+                break;
+            case ResultCode.USER_SIGN_UP_FAILURE:
+            default:
+                ro = ResponseObject.success(200, "成功");
+        }
+        out.print(gson.toJson(ro));*/
         out.close();
     }
 
 
     private void update(HttpServletResponse resp,  long id, int iscare) throws ServletException, IOException {
-        Gson gson = new GsonBuilder().create();
-        Result rs = userService.update(id, iscare);
-        PrintWriter out = resp.getWriter();
-        out.print(gson.toJson(rs));
-        out.close();
+//        Gson gson = new GsonBuilder().create();
+//        Result rs = userService.update(id, iscare);
+//        PrintWriter out = resp.getWriter();
+//        out.print(gson.toJson(rs));
+//        out.close();
 
 
     }

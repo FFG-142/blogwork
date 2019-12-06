@@ -24,6 +24,62 @@ import java.util.List;
 public class ArticleDaoImpl implements ArticleDao {
     private static Logger logger = LoggerFactory.getLogger(ArticleDaoImpl.class);
 
+
+    @Override
+    public int singleInsert(Article article) throws SQLException {
+        Connection connection = DbUtil.getConnection();
+        connection.setAutoCommit(false);
+        String sql = "INSERT INTO t_article (title,summary,thumbnail,content,likes,comments,create_time) VALUES (?,?,?,?,?,?,?) ";
+        int n = 0;
+        PreparedStatement pst = connection.prepareStatement(sql);
+        pst.setString(1, article.getTitle());
+        pst.setString(2, article.getSummary());
+        pst.setString(3, article.getThumbnail());
+        pst.setString(4, article.getContent());
+        pst.setInt(5, article.getLikes());
+        pst.setInt(6, article.getComments());
+        pst.setObject(7, article.getCreateTime());
+        n = pst.executeUpdate();
+        connection.commit();
+        DbUtil.close(connection,pst);
+        return n;
+    }
+
+    @Override
+    public int batchDelete(long id) throws SQLException {
+        Connection connection = DbUtil.getConnection();
+        connection.setAutoCommit(false);
+        String sql = "DELETE FROM t_article WHERE id = ? " ;
+        int n = 0;
+        PreparedStatement pst = connection.prepareStatement(sql);
+        pst.setLong(1,id);
+        n = pst.executeUpdate();
+        connection.commit();
+        DbUtil.close(connection,pst);
+        return n;
+    }
+
+    @Override
+    public int singleAlter(Article article) throws SQLException {
+        Connection connection = DbUtil.getConnection();
+        connection.setAutoCommit(false);
+        String sql = "UPDATE t_article SET title = ?,summary = ?,thumbnail = ?,content = ?,likes = ?,comments = ?,create_time = ? WHERE id = ? ";
+        int n = 0;
+        PreparedStatement pst = connection.prepareStatement(sql);
+        pst.setString(1,article.getTitle());
+        pst.setString(2, article.getSummary());
+        pst.setString(3, article.getThumbnail());
+        pst.setString(4, article.getContent());
+        pst.setInt(5, article.getLikes());
+        pst.setInt(6, article.getComments());
+        pst.setObject(7, article.getCreateTime());
+        pst.setLong(8,article.getId());
+        n = pst.executeUpdate();
+        connection.commit();
+        DbUtil.close(connection,pst);
+        return n;
+    }
+
     @Override
     public void batchInsert(List<Article> articleList) throws SQLException {
         Connection connection = DbUtil.getConnection();

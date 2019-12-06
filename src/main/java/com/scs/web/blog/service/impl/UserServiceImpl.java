@@ -127,7 +127,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Result update(User user) {
+    public Result upDate(User user) {
         try {
             userDao.update(user);
         } catch (SQLException e) {

@@ -15,6 +15,31 @@ import java.util.List;
  **/
 public interface ArticleDao {
     /**
+     * 单个增加文章
+     * @param article
+     * @throws SQLException
+     * @return
+     */
+    int singleInsert(Article article) throws SQLException;
+
+    /**
+     * 批量删除文章
+     * @param article
+     * @return
+     * @throws SQLException
+     */
+    int batchDelete(long id) throws SQLException;
+
+    /**
+     * 修改文章
+     * @param id
+     * @return
+     * @throws SQLException
+     */
+
+    int singleAlter(Article article) throws SQLException;
+
+    /**
      * 批量新增文章
      *
      * @param articleList

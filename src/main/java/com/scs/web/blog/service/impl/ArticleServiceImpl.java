@@ -2,6 +2,7 @@ package com.scs.web.blog.service.impl;
 
 import com.scs.web.blog.dao.ArticleDao;
 import com.scs.web.blog.domain.vo.ArticleVo;
+import com.scs.web.blog.entity.Article;
 import com.scs.web.blog.factory.DaoFactory;
 import com.scs.web.blog.service.ArticleService;
 import com.scs.web.blog.util.Result;
@@ -78,6 +79,51 @@ public class ArticleServiceImpl implements ArticleService {
         }
         if (articleVoList != null) {
             return Result.success(articleVoList);
+        } else {
+            return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
+        }
+    }
+
+    @Override
+    public Result batchDelete(long id) {
+       int n =0 ;
+        try {
+            n = articleDao.batchDelete(id);
+        } catch (SQLException e) {
+            logger.error("根据id删除文章出现异常");
+        }
+        if (n != 0) {
+            return Result.success(n);
+        } else {
+            return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
+        }
+    }
+
+    @Override
+    public Result singleInsert(Article article) {
+       int n = 0;
+        try {
+            n = articleDao.singleInsert(article);
+        } catch (SQLException e) {
+            logger.error("单个添加文章出现异常");
+        }
+        if (n != 0) {
+            return Result.success(n);
+        } else {
+            return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
+        }
+    }
+
+    @Override
+    public Result singleAlter(Article article) {
+        int n = 0;
+        try {
+            n = articleDao.singleAlter(article);
+        } catch (SQLException e) {
+            logger.error("修改文章出现异常");
+        }
+        if (n != 0) {
+            return Result.success(n);
         } else {
             return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
         }

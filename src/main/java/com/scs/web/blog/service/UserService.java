@@ -57,5 +57,5 @@ public interface UserService {
      * @param user
      * @return
      */
-    Result update(User user);
+    Result upDate(User user);
 }

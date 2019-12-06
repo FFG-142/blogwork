@@ -1,5 +1,6 @@
 package com.scs.web.blog.service;
 
+import com.scs.web.blog.entity.Article;
 import com.scs.web.blog.util.Result;
 
 /**
@@ -42,4 +43,25 @@ public interface ArticleService {
      * @return
      */
     Result selectByKeywords(String keywords);
+
+    /**
+     * 批量删除文章
+     * @param id
+     * @return
+     */
+    Result batchDelete(long id);
+
+    /**
+     * 单个增加文章
+     * @param article
+     * @return
+     */
+    Result singleInsert(Article article);
+
+    /**
+     * 修改文章
+     * @param article
+     * @return
+     */
+    Result singleAlter(Article article);
 }

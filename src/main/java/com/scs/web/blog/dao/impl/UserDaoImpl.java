@@ -6,6 +6,7 @@ import com.scs.web.blog.domain.vo.UserVo;
 import com.scs.web.blog.entity.User;
 import com.scs.web.blog.util.BeanHandler;
 import com.scs.web.blog.util.DbUtil;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,7 +47,7 @@ public class UserDaoImpl implements UserDao {
         String sql = "UPDATE t_user SET nickname = ?,password=?,address = ?  WHERE id = ?";
         PreparedStatement pst = connection.prepareStatement(sql);
         pst.setString(1, user.getNickname());
-        pst.setString(2, user.getPassword());
+        pst.setString(2, DigestUtils.md5Hex(user.getPassword()));
         pst.setString(3, user.getAddress());
         pst.setLong(4, user.getId());
         pst.executeUpdate();

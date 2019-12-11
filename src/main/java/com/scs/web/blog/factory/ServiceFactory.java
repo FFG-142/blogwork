@@ -1,11 +1,7 @@
 package com.scs.web.blog.factory;
 
-import com.scs.web.blog.service.ArticleService;
-import com.scs.web.blog.service.TopicService;
-import com.scs.web.blog.service.UserService;
-import com.scs.web.blog.service.impl.ArticleServiceImpl;
-import com.scs.web.blog.service.impl.TopicServiceImpl;
-import com.scs.web.blog.service.impl.UserServiceImpl;
+import com.scs.web.blog.service.*;
+import com.scs.web.blog.service.impl.*;
 
 /**
  * @author mq_xu
@@ -27,4 +23,7 @@ public class ServiceFactory {
         return new TopicServiceImpl();
     }
 
+    public static CommentService getCommentServiceInstance() { return new CommentServiceImpl(); }
+
+    public static ArticleAddService getArticleAddServiceInstance() { return new ArticleAddServiceImpl(); }
 }
